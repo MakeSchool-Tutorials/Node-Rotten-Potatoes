@@ -50,7 +50,7 @@ app.delete('/reviews/:id', function (req, res) {
 })
 ```
 
-We did it! All **Resourceful Routes** for the `Review` resource are complete! It ain't pretty though... let's work on that next.
+We did it! All **Resourceful Routes** for the `Review` resource are complete!
 
 # Now Commit
 
@@ -59,3 +59,55 @@ $ git add .
 $ git commit -m 'Users can destroy reviews'
 $ git push
 ```
+
+# But Wait!
+
+But there is still one problem. All the review routes are all hanging out in the `app.js` file. This breaks the **Separation of Concerns** principle of clean and **Good Smelling** code. Let's pull out these routes into their own reviews **Controller**.
+
+# Refactoring and Adding a Controller
+
+First make a folder called `controllers`, now add the file `reviews.js` to this folder.
+
+Our `app.js` file is not aware that there is a controllers folder or a reviews controller yet. We have to connect them. There are basically two ways to connect this controller to our app. Either we use the Express Router or ES6's modules system. In this case we are going to use the ES6 modules system both to introduce it and to avoid getting into the extra and, at this stage, unnecessary details of the Express Router.
+
+`require` can let you connect any file to any other in JavaScript. All you have to do is put `module.exports` into one file, and then `require(name-of-file)` in the other. Let's look at an example in our controller.
+
+Let's move our root route to this new `reviews.js` controller and we'll wrap the code in the ES6 modules pattern `export default function () {}`, so that this is now a **Module** that will be available anywhere we want to `import` it.
+
+```js
+//reviews.js
+
+const Review = require('./models/review')
+
+export default function (app) {
+
+  app.get('/', (req, res) => {
+    Review.find()
+      .then(reviews => {
+        res.render('reviews-index', {reviews: reviews});
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  });
+
+}
+
+```
+
+Now let's use the ES6 Modules keyword `import` to bring in this module into our `app.js` file.
+
+```js
+// app.js
+
+import reviews from 'reviews';
+
+```
+
+Test that that worked.
+
+Now migrate the rest of the reviews routes into this controller.
+
+# Next Step - Making Things Pretty
+
+So now it is refactored and all working It ain't pretty though... let's work on that next.

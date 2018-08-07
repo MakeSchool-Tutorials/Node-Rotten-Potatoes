@@ -66,15 +66,19 @@ Submitting this form will include the id of the review along with the title and 
 
 # Define a Route  
 
-Define a new route in express to handle this new form.
+Define a new route in express to handle this new form. We can do this inside of a new `comments.js` controller. Remember to link this using `import comments from 'comments';` in `app.js`.
 
-```JavaScript
-...
-// NEW Comment
-app.post('/reviews/comments', (req, res) => {
-  res.send('reviews comment')
-})
-...
+```js
+// comments.js
+
+export default function (app) {
+
+  // NEW Comment
+  app.post('/reviews/comments', (req, res) => {
+    res.send('reviews comment')
+  })
+
+}
 ```
 
 This should print the message 'reviews comment' to the browser when the form is submitted. This is good test to check if everything is working so far.
@@ -85,7 +89,9 @@ To save comments to the database you need a Comment model. You'll need to define
 
 Make a new file and folder: `models/comment.js`
 
-```JavaScript
+```js
+// comment.js
+
 const mongoose = require('mongoose')
 
 const Comment = mongoose.model('Comment', {
@@ -104,7 +110,9 @@ The last line exports the `Comment` object by attaching it to `module.exports`. 
 
 Add the following near the top of `app.js`.
 
-```JavaScript
+```js
+//review.js
+
 ...
 const Comment = require('./models/comment')
 ...
@@ -114,7 +122,9 @@ You can do the same thing with the Review object. Create a new file: `models/rev
 
 Move the Review model code from `app.js` by **cutting** and pasting it into `models/review.js`, then add extra code shown below.
 
-```JavaScript
+```js
+// review.js
+
 const mongoose = require('mongoose')
 
 const Review = mongoose.model('Review', {
@@ -128,7 +138,9 @@ module.exports = Review
 
 Now import `models/review.js` into `app.js`. Add the following near the top of `app.js`.
 
-`const Review = require('./models/review')`
+```js
+const Review = require('./models/review')
+```
 
 # Adding a reference to a Review inside a Comment
 
@@ -136,7 +148,7 @@ Every Comment will need to have reference to a Review. This reference is the `_i
 
 Open `models/comment.js` make the following changes.
 
-```JavaScript
+```js
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
@@ -153,12 +165,11 @@ On the second line you got a reference to the Mongoose Schema object. This Objec
 
 The second change was to add a new property: `reviewId`. The value of this property is a `ref` or reference to another Mongoose model, 'Review' in this case. This name must match the name given to the model in `models/review.js`:
 
-```JavaScript
+```js
 ...
 const Review = mongoose.model('Review', {
   ...
 })
-}
 ```
 
 You can check your work by testing your project in the browser. Any errors should show in the terminal. Comments cannot be saved yet but, saving Reviews should still work.
@@ -167,10 +178,12 @@ Submitting a comment the browser should show the meesage: 'reviews comment' from
 
 Revisit the post comment route now. Open app.js and look for `app.post('/reviews/comments', ...)`. You need to create a new comment and then reload the page. Make the changes below:
 
-```JavaScript
-// NEW Comment
+```js
+// comments.js
+
+// CREATE Comment
 app.post('/reviews/comments', (req, res) => {
-  Comment.create(req.body).then((comment) => {
+  Comment.create(req.body).then(comment => {
     res.redirect(`/reviews/'${comment.reviewId}`)
   }).catch((err) => {
     console.log(err.message)
@@ -188,19 +201,21 @@ This is a chicken and egg problem. We'd like to see comments but can't see any i
 
 Open `app.js` and make these changes to the route that shows a single review by id.
 
-```JavaScript
+```js
 // SHOW
 app.get('/reviews/:id', (req, res) => {
-  const findReviews = Review.findById(req.params.id)
-  const findComments = Comment.find({ reviewId: Object(req.params.id) })
-
-  Promise.all([findReviews, findComments]).then((values) => {
-    console.log(values)
-    res.render('reviews-show', { review: values[0], comments: values[1] })
+  // find review
+  Review.findById(req.params.id).then(review => {
+    // fetch its comments
+    Comment.find({ reviewId: req.params.id }).then(comments => {
+      // respond with the template with both values
+      res.render('reviews-show', { review: review, comments: comments })
+    })
   }).catch((err) => {
+    // catch errors
     console.log(err.message)
-  })
-})
+  });
+});
 ```
 
 This is an interesting use of `Promise`! `Promise.all()` runs any number of asynchronous requests in parallel (at the same time). The code in the `then()` block is run when all of the requests have resolved. Values from the requests are returned in an array, `values` in the example above. Where `values[0]` is the first request, `values[1]` is the second request etc.
