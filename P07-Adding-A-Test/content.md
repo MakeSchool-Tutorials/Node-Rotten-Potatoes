@@ -1,6 +1,6 @@
 ---
-title: "Adding a Test"
-slug: add-a-test
+title: "Adding Tests"
+slug: adding-tests
 ---
 
 Automated testing is an important part of any professional coder's life. Writing automated tests slow you down to start, but then they speed you way up as your project gets more complex and large.
