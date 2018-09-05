@@ -100,7 +100,7 @@ Now let's import our reviews.js file into our app.js file.
 ```js
 // app.js
 
-const reviews = require('./reviews');
+const reviews = require('./reviews')(app);
 
 ```
 
