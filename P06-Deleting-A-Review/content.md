@@ -95,12 +95,12 @@ export default function (app) {
 
 ```
 
-Now let's use the ES6 Modules keyword `import` to bring in this module into our `app.js` file.
+Now let's import our reviews.js file into our app.js file.
 
 ```js
 // app.js
 
-import reviews from 'reviews';
+const reviews = require('./reviews');
 
 ```
 
