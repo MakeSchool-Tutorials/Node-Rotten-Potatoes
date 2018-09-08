@@ -36,12 +36,26 @@ We're going to use `mocha` to write a test for the index route of our Review res
 
 Next we need to create a folder called `test` and inside that folder a file called `test-reviews.js` in there put the following code.
 
+First we'll need to export the `app` variable from our `app.js` file to include it in our tests.
+
+```js
+// app.js
+
+...
+
+
+module.exports = app;
+
+```
+
+Now we can add our test file.
+
 ```js
 // test-reviews.js
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server');
+const app = require('../app');
 const should = chai.should();
 const Review = require('../models/review');
 
