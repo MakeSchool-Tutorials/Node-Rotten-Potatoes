@@ -75,7 +75,7 @@ Our `app.js` file is not aware that there is a controllers folder or a reviews c
 ```js
 //reviews.js
 
-const Review = require('./models/review')
+const Review = require('../models/review')
 
 module.exports = function(app) {
 
