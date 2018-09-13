@@ -184,11 +184,11 @@ Revisit the post comment route now. Open app.js and look for `app.post('/reviews
 // CREATE Comment
 app.post('/reviews/comments', (req, res) => {
   Comment.create(req.body).then(comment => {
-    res.redirect(`/reviews/'${comment.reviewId}`)
+    res.redirect(`/reviews/${comment.reviewId}`);
   }).catch((err) => {
-    console.log(err.message)
-  })
-})
+    console.log(err.message);
+  });
+});
 ```
 
 Test your work. Write a comment and submit the form. This should show the comment in the console: `console.log(comment)`. If there are any errors they should appear in the console.
