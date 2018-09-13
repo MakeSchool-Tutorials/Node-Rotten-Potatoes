@@ -38,7 +38,7 @@ Ok now if we click that edit link, we'll see the route is not found. So let's ma
 // app.js
 ...
 // EDIT
-app.get('/reviews/:id/edit', function (req, res) {
+app.get('/reviews/:id/edit', (req, res) => {
   Review.findById(req.params.id, function(err, review) {
     res.render('reviews-edit', {review: review});
   })
