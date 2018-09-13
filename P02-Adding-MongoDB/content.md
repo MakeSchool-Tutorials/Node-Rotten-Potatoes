@@ -61,6 +61,12 @@ You also need to create a folder to save your databases on your computer.
 $ mkdir -p /data/db
 ```
 
+If you have problems with permissions with this folder you can "change owner" of the directory using this command:
+
+```bash
+sudo chown -R $USER /data/db 
+```
+
 Now you need to start the MongoDB daemon.
 
 ```bash
