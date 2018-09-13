@@ -72,14 +72,12 @@ Our `app.js` file is not aware that there is a controllers folder or a reviews c
 
 `require` can let you connect any file to any other in JavaScript. All you have to do is put `module.exports` into one file, and then `require(name-of-file)` in the other. Let's look at an example in our controller.
 
-Let's move our root route to this new `reviews.js` controller and we'll wrap the code in the ES6 modules pattern `export default function () {}`, so that this is now a **Module** that will be available anywhere we want to `import` it.
-
 ```js
 //reviews.js
 
 const Review = require('./models/review')
 
-export default function (app) {
+module.exports = function(app) {
 
   app.get('/', (req, res) => {
     Review.find()
