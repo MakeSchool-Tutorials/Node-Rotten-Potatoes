@@ -71,7 +71,7 @@ Define a new route in express to handle this new form. We can do this inside of 
 ```js
 // comments.js
 
-export default function (app) {
+module.exports = (app) => {
 
   // NEW Comment
   app.post('/reviews/comments', (req, res) => {
@@ -106,7 +106,7 @@ This is very similar to the Review model created earlier. The first line imports
 
 The middle section is similar to the Review model with the difference that the Comment model only saves a `title` and `content`.
 
-The last line exports the `Comment` object by attaching it to `module.exports`. By doing this you can import `Comment` into any of your other files. Import `Comment` into `app.js`.
+The last line exports the `Comment` object by attaching it to `module.exports`. By doing this you can import `Comment` into any of your other files. Require `Comment` into `app.js`.
 
 Add the following near the top of `app.js`.
 
@@ -199,7 +199,7 @@ You still can't see comments in the browser. Let's tackle that problem next.
 
 This is a chicken and egg problem. We'd like to see comments but can't see any if they don't exist in the database. For this reason we chose to write the code that create comments first. Now we will write the code to display comments.
 
-Open `app.js` and make these changes to the route that shows a single review by id.
+Open `reviews.js` and make these changes to the route that shows a single review by id.
 
 ```js
 // SHOW
@@ -269,7 +269,7 @@ Test your work! Navigate to a single Review and add a comment. Submitting the co
 
 ```bash
 $ git add .
-$ git commit -m 'Users can destroy comments'
+$ git commit -m 'Users can see comments'
 $ git push
 ```
 
