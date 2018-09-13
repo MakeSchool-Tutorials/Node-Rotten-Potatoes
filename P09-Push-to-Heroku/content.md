@@ -63,6 +63,16 @@ $ heroku logs --tail
 
 What error are we seeing in heroku now? What do we need to do?
 
+You might need to add a "start" command to your `package.json` file:
+
+```
+// package.json
+
+"scripts": {
+  "start": "node app.js"
+}
+```
+
 # Adding a Production Database
 
 It looks like the error is that we cannot connect to our mongodb database. That's because it is looking at the `'mongodb://localhost/rotten-potatoes'` URI, but that is on our local computer and heroku, which is remote, doesn't have access to that. So we have to add a mongodb heroku add-on called mLabs.
