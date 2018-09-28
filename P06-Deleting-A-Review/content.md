@@ -68,16 +68,14 @@ But there is still one problem. All the review routes are all hanging out in the
 
 First make a folder called `controllers`, now add the file `reviews.js` to this folder.
 
-Our `app.js` file is not aware that there is a controllers folder or a reviews controller yet. We have to connect them. There are basically two ways to connect this controller to our app. Either we use the Express Router or ES6's modules system. In this case we are going to use the ES6 modules system both to introduce it and to avoid getting into the extra and, at this stage, unnecessary details of the Express Router.
+Our `app.js` file is not aware that there is a controllers folder or a reviews controller yet. We have to connect them. There are basically two ways to connect this controller to our app. Either we use the Express Router or JavaScript's modules system. In this case we are going to use the JavaScript ES5 modules system both to introduce it and to avoid getting into the extra and, at this stage, unnecessary details of the Express Router.
 
 `require` can let you connect any file to any other in JavaScript. All you have to do is put `module.exports` into one file, and then `require(name-of-file)` in the other. Let's look at an example in our controller.
 
 ```js
 //reviews.js
 
-const Review = require('../models/review')
-
-module.exports = function(app) {
+module.exports = function(app, Review) {
 
   app.get('/', (req, res) => {
     Review.find()
@@ -93,18 +91,53 @@ module.exports = function(app) {
 
 ```
 
-Now let's import our reviews.js file into our app.js file.
+Now let's import our reviews.js file into our app.js file. We'll pass the `app` and our model `Review` into the file as well.
 
 ```js
 // app.js
 
-const reviews = require('./reviews');
-
+const reviews = require('./controllers/reviews')(app, Review);
 ```
 
 Test that that worked.
 
-Now migrate the rest of the reviews routes into this controller.
+Now migrate the rest of the reviews routes into the `reviews.js` controller file.
+
+# Now The Model
+
+By the end of this chapter we'll have a `views`, `controllers`, and a `models` folders, finally getting a clean `app.js` file and the proper separation of concerns!
+
+Let's move the `Review` model from the `app.js` file into the `models/review.js` file. First make the `models` folder, and then create the `review.js` file inside. Note that model files are singular, while controller files are plural.
+
+Inside the `review.js`, we have to have `mongoose` initialized, and the `Review` code. At the end we want to export it so we can require the model in other files, like our controller.
+
+```js
+// models/review.js
+
+const mongoose = require('mongoose');
+
+const Review = mongoose.model('Review', {
+  ...
+});
+
+module.exports = Review;
+```
+
+Instead of including our model `Review` through the `require` statement in our `app.js`, let's put it into the controller via its own require statement.
+
+```js
+// app.js
+
+const reviews = require('./controllers/reviews')(app);
+```
+
+```js
+// reviews.js
+
+const Review = require('../models/review');
+...
+```
+
 
 # Next Step - Making Things Pretty
 

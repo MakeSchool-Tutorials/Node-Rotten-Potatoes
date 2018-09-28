@@ -96,6 +96,31 @@ Now if we try to open our heroku app what happens?
 $ heroku open
 ```
 
+# ... Hanging?
+
+Another error! This is a weird one. First it just hangs for a while, then times out, and then the error says "cannot bind on $PORT". This is because Heroku does not use port 3000, it uses another port available in production at `process.env.PORT`, just like your mongoDB URI.
+
+Let's fix that by setting the port also with the `process.env`
+
+```bash
+
+```
+
+Then we have to point to this production mongodb database URI in our `app.js` file.
+
+```js
+// app.js
+
+const port = process.env.PORT || 3000;
+app.listen(port);
+```
+
+Now if we try to open our heroku app what happens?
+
+```bash
+$ heroku open
+```
+
 # WooHoo!
 
 Awwww yeah - you did it! You made your first RESTful and Resourceful app using Node.js, Express.js, and MongoDB!
