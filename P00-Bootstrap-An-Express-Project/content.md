@@ -31,12 +31,12 @@ So the user stories we can have for this review app will be as follows:
 1. Users can delete a review (destroy)
 1. Users can edit a review (edit/update)
 
-Once we have this single `Review` resource build, we can move onto making an associated `Comment` resource.
+Once we have this single Review resource build, we can move onto making an associated Comment resource.
 
 1. Users can comment on reviews (comments#create)
 1. Users can delete comments (comments#destroy)
 
-As we finish and test user stories we'll be committing to github :octopus:.
+As we finish and test user stories we'll be committing to github 🐙.
 
 # Getting Started - Node.JS and `npm`
 
@@ -50,7 +50,7 @@ Open your computer's terminal and then...
 
 # Install Homebrew
 
-If you don't already have Homebrew installed, install that first and then NodeJS & npm.
+If you don't already have Homebrew installed, Mac's package manager, install that first and then install NodeJS. `npm` NodeJS's package manager is installed automatically when you install node, so we'll be able to install node modules from our commandline once we install node.
 
 ```bash
 $ /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -62,7 +62,9 @@ $ brew install node
 
 # Starting a Node.js & Express.js Project
 
-Use npm to initialize a Node review.
+Now that we have Node installed (and therefore have `npm`), now we can use npm to initialize a Node project using the command `npm init` which means "npm initialize".
+
+Make a new directory called 'rotten-potatoes', then navigate into that directory, and finally initialized a new npm project in that directory. The `npm init` function will prompt you to define the configuration options that will be recorded in a file called `package.json`. Just hit enter for each option to select the default choice.
 
 ```bash
 $ mkdir rotten-potatoes
@@ -71,22 +73,26 @@ $ npm init
 # (hit enter for each option it asks for to select the default choice)
 ```
 
-With the commands above you made a new directory: 'rotten-potatoes', changed to that directory, and initialized a new npm project in that directory.
+Now if you open your project in Atom, you'll see the `package.json` which records the npm configuration you define upon initialization of the project.
 
-Now add Express.js and touch `app.js`
+# Adding Express.js
+
+Now we need to add just a "Hello World" rendered with Express.js and the template engine: Handlebars.
+
+Our main file we'll call `app.js`
+
+First install Express.js and then create the main file using the "touch" command.
 
 ```
 $ npm install express --save
 $ touch app.js
 ```
 
-Here you added express.js and created a new file named 'app.js'
-
-Open 'app.js' in your favorite text editor. I recommend Atom. You can open your project in Atom by typing:
+Open your project using Atom by typing:
 
 `$ atom .`
 
-And let's add some standard Express.js code to `app.js`
+And let's add some standard Express.js code to `app.js` to show a hello world. (We still haven't added a template engine yet! We are just sending text back to the browser.)
 
 ```js
 const express = require('express')
@@ -103,7 +109,7 @@ app.listen(3000, () => {
 
 # Install nodemon and launch your server
 
-Make sure you've installed `nodemon` and run your server by running nodemon.
+Make sure you've installed `nodemon` and run your server by running `nodemon`.
 
 ```bash
 $ npm install nodemon -g
@@ -112,18 +118,19 @@ $ nodemon app.js
 
 You should see "Portfolio App listening on port 3000!" output in your terminal. And if you enter `localhost:3000` into your browser, you should see "Hello World".
 
-
 # Add Handlebars.js as a Templating Engine
 
-Now let's add our templating engine Handlebars.js so our Express.js server can render _server-side HTML templates_.
+Now, we are going to need to render HTML for our project, so we have to add a **Templating Engine** if we want extend Express.js to use HTML.
 
-Instal Handlebars.js to your review.
+Let's add our templating engine Handlebars.js so our Express.js server can render templates. This is called _server-side HTML templates_.
+
+Instal Handlebars.js to your project using the `express-handlebars` node module.
 
 ```bash
 $ npm install express-handlebars --save
 ```
 
-Initialize Handlebars.js in your app.
+Initialize Handlebars.js in your app and also, let's set the `defaultLayout` to `main`.
 
 ```js
 // app.js
@@ -146,18 +153,25 @@ $ .. # to go back up a level
 $ .. # to go back up one more level to the root folder of your review
 ```
 
-Now extend your _root route_ to render `home.handlebars`.
+Now extend your **root route** ('/') to render `home.handlebars`.
 
 ```js
 // app.js
 
 app.get('/', (req, res) => {
-  res.render('home', { msg: 'Hello World!' });
+  res.render('home', { msg: 'Handlebars are Cool!' });
 })
 ```
 
+If you refresh your browser now, it will probably throw an error because it won't find a `home.handlebars` template yet (because we haven't made it!).
+
+> [info]
+> It is useful to try to predict what error you might get as you are coding, and see if you get the error you expected. Errors can be a great way to check your work as you go and not go too far before checking your work.
+
+Now we'll add the `main.handlebars` layout template. A **layout template** is a super-template that all other templates will inherit from. These templates will be threaded in right at the `{{{body}}}`.
+
 ```html
-<!-- main.handlebars -->
+<!-- views/layouts/main.handlebars -->
 <!doctype html>
 <html>
 <head>
@@ -172,16 +186,17 @@ app.get('/', (req, res) => {
 </html>
 ```
 
+Now we can make our `views/home.handlebars` template to render
 ```html
 <!-- home.handlebars -->
 <h1>{{msg}}</h1>
 ```
 
-Now when you visit `localhost:3000` you should still see "Hello World!" but now inside an `h1` tag.
+Now when you visit `localhost:3000` you now should see "Handlebars are Cool!" inside an `h1` tag.
 
-# Initialize and Commit
+# Initialize, Commit, and Push
 
-Now that you have a bootstrapped project initialize and commit to github
+Now that you have a bootstrapped project initialize, let's commit to github.
 
 ```bash
 $ git init

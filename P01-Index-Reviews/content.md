@@ -33,7 +33,7 @@ The table above shows the resources, routes, and actions that might be used on a
 
 We're going to start with the index action and then show, and then we'll look at the create, edit, update, and delete.
 
-# Adding a `/reviews` Route
+# Adding a /reviews Route
 
 Let's make a route to `/reviews` for the index action where we can see all the reviews that we've created. Eventually this will be on our root route, but we can start making it its own separate path.
 
@@ -42,8 +42,8 @@ Let's make a route to `/reviews` for the index action where we can see all the r
 
 // OUR MOCK ARRAY OF PROJECTS
 let reviews = [
-  { title: "Great Review" },
-  { title: "Next Review" }
+  { title: "Great Review", movieTitle: "Batman II" },
+  { title: "Awesome Movie", movieTitle: "Titanic" }
 ]
 
 // INDEX
@@ -56,12 +56,12 @@ Notice how we are making a mock array of reviews, and sending that in as an obje
 
 # Errors are Your Friends!
 
-If you refresh `localhost:3000/reviews` right now what do you see? Probably an error. That's ok! Errors are our friends. What does the error say?
+If you refresh `localhost:3000/reviews` right now what do you see? An error! **That's ok!** Errors are our friends. What does the error say? I bet it says something like "I can't find the template 'reviews-index'". That makes sense because we haven't made it yet! It's ok to complete coding tasks in an order that throws a predictable error.
 
 > [info]
 > Errors often tell you the next step you need to take. In this case the error is telling you that the template does not exist. Let's make it!
 
-Now let's add the template `views/reviews-index.handlebars`. We're going to use the Handlebars.js `{{#each}}` iterator to loop over our array of reviews and display each one's title.
+So to fix this error, let's add the template `views/reviews-index.handlebars`. We're going to use the Handlebars.js `{{#each}}` iterator to loop over our array of reviews and display each one's title.
 
 ```html
 <!-- reviews-index -->
@@ -77,7 +77,7 @@ If you refresh `localhost:3000/reviews` now what do you see?
 > [solution]
 > You should see the mock reviews we wrote into code. Can you add to them or change them?
 
-# Setting the Root Route - `/`
+# Setting the Root Route - '/'
 
 Let's update the `/reviews` route to be our root route. Just change the path from `/reviews` to `/` and delete or comment out the hello world root route we made before.
 
