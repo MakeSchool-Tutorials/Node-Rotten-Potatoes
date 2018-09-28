@@ -64,7 +64,7 @@ $ mkdir -p /data/db
 If you have problems with permissions with this folder you can "change owner" of the directory using this command:
 
 ```bash
-sudo chown -R $USER /data/db 
+sudo chown -R $USER /data/db
 ```
 
 Now you need to start the MongoDB daemon.
@@ -72,6 +72,8 @@ Now you need to start the MongoDB daemon.
 ```bash
 $ mongod # SHORT FOR "MONGO DAEMON"
 ```
+
+Once you turn on mongod you can close the terminal tab you used to do that.
 
 The command `mongod` should start MongoDB and now it will be accessible from your web server. Let's configure express to write to MongoDB using the npm library `mongoose`.
 
@@ -93,7 +95,7 @@ Now initialize mongoose in `app.js` and connect to our database that we'll name 
 ...
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rotten-potatoes', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/rotten-potatoes');
 
 ...
 
@@ -103,7 +105,7 @@ Voila, you are connected to your database! But wait, you haven't written or read
 
 # Making a Model
 
-Let's add a model to our review.
+The model is the **Data Layer** of your application. Models are where you put the code dedicated to interacting with the database. We'll be using `mongoose` our ODM to create a model. For now we'll put it in the `app.js` file and later we'll add it to a file at `models/review.js`.
 
 ```js
 // app.js
@@ -112,7 +114,8 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/rotten-potatoes', { useMongoClient: true });
 
 const Review = mongoose.model('Review', {
-  title: String
+  title: String,
+  movieTitle: String
 });
 ```
 
@@ -151,10 +154,14 @@ A Mongoose model has many functions you can call on to query, create, and update
 
 Call `.then()` and provide a function for the **Promise** to call when it **resolves**—when it finished whatever it was doing, in the case of this mongoose function, the **promise resolves** once the data comes back from the database.
 
-```
-Reviews.find().then((review) => {
+```js
+Reviews.find()
+  .then(review => {
   // Code in here is executed when the promise resolves
-})
+  })
+  .catch(err => {
+
+  });
 ```
 
 Use `.catch()` and provide a function for the promise to call if the **Promise** is rejected. A **Promise** is rejected if it fails.

@@ -36,6 +36,7 @@ Now we want to create two more for the new action, and the create action.
 | /reviews/new     | GET       | new     |
 | /reviews         | POST      | create  |
 
+
 # Linking to New Review Route
 
 First things first - what does the user see?
@@ -87,6 +88,10 @@ If we navigate our browsers to `/reviews/new` we'll get a friendly little error 
       <label for="title">Title</label><br>
       <input type="text" name="title" />
     </p>
+    <p>
+      <label for="movieTitle">Movie Title</label><br>
+      <input type="text" name="movieTitle" />
+    </p>
   </fieldset>
 
   <!-- BUTTON -->
@@ -118,7 +123,7 @@ First, you need to get ready to accept form data using an npm module called `bod
 $ npm install body-parser --save
 ```
 
-Now initialize the `body-parser` module in our `app.js` file.
+Body Parser is a module that allows express to see form data that is coming in from a POST request. So we'll initialize the `body-parser` module in our `app.js` file.
 
 ```js
 // app.js
@@ -202,7 +207,6 @@ First let's add what the user sees - the `reviews-new.handlebars` form input fie
   </p>
 
 </form>
-
 ```
 
 Next, let's add the `description` attribute to the `Review` model.
