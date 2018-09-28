@@ -1,6 +1,6 @@
 ---
-title: "Adding a Route for Comments"
-slug: adding-route-for-comments
+title: "Deleting Comments"
+slug: deleting-comments
 ---
 
 Finally, since we are creating comments, we should also be able to delete them.
