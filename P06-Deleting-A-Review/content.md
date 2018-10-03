@@ -132,7 +132,7 @@ const reviews = require('./controllers/reviews')(app);
 ```
 
 ```js
-// reviews.js
+// controllers/reviews.js
 
 const Review = require('../models/review');
 ...
