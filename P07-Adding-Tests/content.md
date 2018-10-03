@@ -65,7 +65,7 @@ describe('Reviews', ()  => {
 
   // TEST INDEX
   it('should index ALL reviews on / GET', (done) => {
-    chai.request(server)
+    chai.request(app)
         .get('/')
         .end((err, res) => {
           res.should.have.status(200);
