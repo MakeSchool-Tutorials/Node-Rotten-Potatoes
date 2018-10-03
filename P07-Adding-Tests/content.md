@@ -55,7 +55,7 @@ Now we can add our test file.
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../app');
+const server = require('../app');
 const should = chai.should();
 const Review = require('../models/reviews');
 
@@ -65,7 +65,7 @@ describe('Reviews', ()  => {
 
   // TEST INDEX
   it('should index ALL reviews on / GET', (done) => {
-    chai.request(app)
+    chai.request(server)
         .get('/')
         .end((err, res) => {
           res.should.have.status(200);
