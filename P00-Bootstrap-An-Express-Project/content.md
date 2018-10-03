@@ -116,7 +116,7 @@ $ npm install nodemon -g
 $ nodemon app.js
 ```
 
-You should see "Portfolio App listening on port 3000!" output in your terminal. And if you enter `localhost:3000` into your browser, you should see "Hello World".
+You should see "App listening on port 3000!" output in your terminal. And if you enter `localhost:3000` into your browser, you should see "Hello World".
 
 # Add Handlebars.js as a Templating Engine
 
