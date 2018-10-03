@@ -96,7 +96,7 @@ Now let's import our reviews.js file into our app.js file. We'll pass the `app` 
 ```js
 // app.js
 
-const reviews = require('./controllers/review')(app, Review);
+const reviews = require('./controllers/reviews')(app, Review);
 ```
 
 Test that that worked.
