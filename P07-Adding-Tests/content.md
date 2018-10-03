@@ -57,7 +57,7 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
 const should = chai.should();
-const Review = require('../models/review');
+const Review = require('../models/reviews');
 
 chai.use(chaiHttp);
 
