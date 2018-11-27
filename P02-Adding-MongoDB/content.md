@@ -111,7 +111,7 @@ The model is the **Data Layer** of your application. Models are where you put th
 // app.js
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rotten-potatoes', { useMongoClient: true });
+mongoose.connect('mongodb://localhost/rotten-potatoes');
 
 const Review = mongoose.model('Review', {
   title: String,

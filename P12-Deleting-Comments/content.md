@@ -51,7 +51,7 @@ We can't set an `<a>` tag's method (it is always GET) so we are going to use a f
 Now we need a delete action route. After deleting the comment, it should redirect back to the parent review (`reviews-show`).
 
 ```js
-// app.js
+// controllers/comments.js
 ...
 // DELETE
 app.delete('/reviews/comments/:id', function (req, res) {

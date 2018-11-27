@@ -13,6 +13,24 @@ Then you will need to add the Heroku Command Line Interface (CLI) to your bash t
 
 Next we'll have to initialize our project as a git repository...
 
+# Adding Your Procfile
+
+Before we push to Heroku, we'll have to create a special file, called `Procfile`, that lets Heroku know how to run your website. Create and open your new `Procfile` using the following commands:
+
+```bash
+$ touch Procfile
+$ atom Procfile
+```
+
+Next, we need to insert the command to run our application on Heroku. Paste the following into your new `Procfile` and save:
+
+```bash
+web: node app.js
+```
+
+Great! When we push to Heroku, it'll know how to run our application. Keep going!
+
+
 # Pushing to Heroku using Github
 
 Let's start by installing git if you don't already have it installed. And then initializing our project folder as a git repository. Then we can check the git status. We should see all our files as uncommitted and unstaged to commit.
@@ -46,6 +64,16 @@ $ heroku open
 ```
 
 You are probably seeing an error screen right now! Bit of a let down maybe. But also a good lesson - **Things never work the first time**. Let's debug our issues.
+
+# Scale Your Heroku application
+
+We need to run an additional command that tells Heroku to assign a free worker to our deployment in order to run your website. In Heroku syntax, that means executing the `ps:scale` command, like so:
+
+```bash
+$ heroku ps:scale web=1
+```
+
+**Just like `heroku create`, you only need to execute this command once per project**!
 
 # Heroku Logs
 
@@ -101,10 +129,6 @@ $ heroku open
 Another error! This is a weird one. First it just hangs for a while, then times out, and then the error says "cannot bind on $PORT". This is because Heroku does not use port 3000, it uses another port available in production at `process.env.PORT`, just like your mongoDB URI.
 
 Let's fix that by setting the port also with the `process.env`
-
-```bash
-
-```
 
 Then we have to point to this production mongodb database URI in our `app.js` file.
 

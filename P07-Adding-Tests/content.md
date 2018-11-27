@@ -55,7 +55,7 @@ Now we can add our test file.
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const app = require('../app');
+const server = require('../app');
 const should = chai.should();
 const Review = require('../models/review');
 
@@ -164,7 +164,7 @@ Let's add a `sampleReview` to the top of the test file.
 
 const chai = require('chai');
 const chaiHttp = require('chai-http');
-const server = require('../server');
+const server = require('../app');
 const should = chai.should();
 const Review = require('../models/review');
 
