@@ -1,15 +1,15 @@
 ---
 title: "Making A Plan & Starting an Express.js Project"
-slug: bootstrap-an-express-project
+slug: start-an-express-project
 ---
 
 You might know the website [Rotten Tomatoes](https://rottentomatoes.com) it is a site where people can review movies. In this tutorial you are going to build Rotten Potatoes - your very own movie review website.
 
 By finishing this tutorial you will continue to deepen your knowledge of Node.js and Express.js as well as master the internet-wide paradigms of RESTful and Resourceful routing. You will be Creating, Reading, Updating, and Deleting (CRUD) a single `Review` resource. You will also learn how to use a MongoDB document-based database with Express.js.
 
-Before we get started, let's make a plan for what **User Stories** we're going to build. Then we'll jump in and **bootstrap**—begin—our Express.js app and add a templating engine.
+Before we get started, let's make a plan for what **User Stories** we're going to build. Then we'll jump in and start Express.js app and add a templating engine.
 
-# User Stories
+# How to Plan a Coding Project: User Stories
 
 Software development these days is usually organized into **Agile Sprints** that are usually two weeks long. You'll notice evidence of this if you ever update your apps and read the update text. Sometimes it just says:
 
@@ -40,7 +40,7 @@ As we finish and test user stories we'll be committing to github 🐙.
 
 # Getting Started - Node.JS and `npm`
 
-Now that we have some user stories, let's bootstrap an Express.js project so we can start on the first user story in the next chapter of this tutorial.
+Now that we have some user stories, let's initialize an Express.js project so we can start on the first user story in the next chapter of this tutorial.
 
 We're gonna jump right in to starting the new review and provide more context as new topics and concepts come up.
 
@@ -77,22 +77,29 @@ Now if you open your project in Atom, you'll see the `package.json` which record
 
 # Adding Express.js
 
-Now we need to add just a "Hello World" rendered with Express.js and the template engine: Handlebars.
+Now we need to add just a "Hello World" rendered with Express.js and then add the template engine we'll be using called [Handlebars](https://handlebarsjs.com/). Express.js is template engine-agnostic, meaning we could use all sorts of templating engines. We're going to use Handlebars so we get two key features: 1) a layout template, which will make organizing our templates easier, and 2) we'll actually write HTML—some templating engines you write in a custom version of html to simplify it but we want to practice writing real HTML.
 
-Our main file we'll call `app.js`
+Our main file of our whole application we'll call `app.js`
 
-First install Express.js and then create the main file using the "touch" command.
-
-```
+> [action]
+> First install Express.js and then create the main file using the "touch" command.
+>
+```bash
 $ npm install express --save
 $ touch app.js
 ```
+>
 
-Open your project using Atom by typing:
+Now your project should have two files and a folder: `app.js`, `package.json`, and `node_modules`.
 
-`$ atom .`
+> [action]
+> Now open your project's code base using the Atom text editor by typing:
+```bash
+$ atom .
+```
+>
 
-And let's add some standard Express.js code to `app.js` to show a hello world. (We still haven't added a template engine yet! We are just sending text back to the browser.)
+And let's add some standard Express.js code to `app.js` to show a hello world.
 
 ```js
 const express = require('express')
@@ -107,16 +114,20 @@ app.listen(3000, () => {
 })
 ```
 
+At this point, we could run our project with `node app.js` and we would see "Hello World". Remember that we still haven't added a template engine yet! We are just sending text back to the browser.
+
 # Install nodemon and launch your server
 
-Make sure you've installed `nodemon` and run your server by running `nodemon`.
+Let's install `nodemon` if you haven't already. Make sure you've installed `nodemon` and run your server by running `nodemon`. [Nodemon](https://nodemon.io/) just helps us by restarting our server every time we change our code.
 
 ```bash
 $ npm install nodemon -g
 $ nodemon app.js
 ```
 
-You should see "Portfolio App listening on port 3000!" output in your terminal. And if you enter `localhost:3000` into your browser, you should see "Hello World".
+In your terminal you should see "Portfolio App listening on port 3000!" output in your terminal from the `console.log` inside of `app.listen(3000 ...)`. Now on your browser at `http://localhost:3000` you should see "Hello World".
+
+Hello there code!
 
 # Add Handlebars.js as a Templating Engine
 
@@ -124,36 +135,25 @@ Now, we are going to need to render HTML for our project, so we have to add a **
 
 Let's add our templating engine Handlebars.js so our Express.js server can render templates. This is called _server-side HTML templates_.
 
-Instal Handlebars.js to your project using the `express-handlebars` node module.
+> [action]
+> Instal Handlebars.js to your project using the `express-handlebars` node module.
 
 ```bash
 $ npm install express-handlebars --save
 ```
 
-Initialize Handlebars.js in your app and also, let's set the `defaultLayout` to `main`.
+Now that we've installed the package, we must require it or **initialize** it in your app and also, let's set the `defaultLayout` to `main`.
 
 ```js
 // app.js
 var exphbs = require('express-handlebars');
 
-app.engine('handlebars', exphbs({defaultLayout: 'main'}));
+app.engine('handlebars', exphbs({ defaultLayout: 'main' }));
 app.set('view engine', 'handlebars');
 ```
 
-Create the `views`, `layouts` folders and `main.handlebars` and `home.handlebars` files.
-
-```bash
-$ mkdir views
-$ cd views
-$ mkdir layouts
-$ touch home.handlebars
-$ cd layouts
-$ touch main.handlebars
-$ .. # to go back up a level
-$ .. # to go back up one more level to the root folder of your review
-```
-
-Now extend your **root route** ('/') to render `home.handlebars`.
+> [action]
+> Now extend your **root route** ('/') to render `home.handlebars`.
 
 ```js
 // app.js
@@ -163,12 +163,23 @@ app.get('/', (req, res) => {
 })
 ```
 
-If you refresh your browser now, it will probably throw an error because it won't find a `home.handlebars` template yet (because we haven't made it!).
+Refresh your browser now and read the error you get carefully. This error tells us that our application can't find a `home.handlebars` template yet (because we haven't made it!).
 
 > [info]
 > It is useful to try to predict what error you might get as you are coding, and see if you get the error you expected. Errors can be a great way to check your work as you go and not go too far before checking your work.
 
-Now we'll add the `main.handlebars` layout template. A **layout template** is a super-template that all other templates will inherit from. These templates will be threaded in right at the `{{{body}}}`.
+> [action]
+> Create the `views`, `layouts` folders and `main.handlebars` and `home.handlebars` files.
+
+```bash
+$ mkdir views
+$ mkdir views/layouts
+$ touch views/layouts/main.handlebars
+```
+
+So now we have our **views** folder setup with a **layout template** called `main`. Great!
+
+Now we'll add some boilerplate code to the `main.handlebars` layout template. Remember that we used Handlebars because it has a **Layout Template**. A **layout template** is a super-template that all other templates will inherit from. This is like a "super-template" that all other templates are embedded in. Having a layout template means we can put things that go on *every* page in just one file of code. These templates will be threaded in right at the `{{{body}}}`.
 
 ```html
 <!-- views/layouts/main.handlebars -->
@@ -196,7 +207,7 @@ Now when you visit `localhost:3000` you now should see "Handlebars are Cool!" in
 
 # Initialize, Commit, and Push
 
-Now that you have a bootstrapped project initialize, let's commit to github.
+Now that you have a basic initialized Express.js project, let's commit to github.
 
 ```bash
 $ git init
