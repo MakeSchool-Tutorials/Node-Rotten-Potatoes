@@ -98,7 +98,7 @@ We'll start by wrapping the `{{{body}}}` with a `container` class.
 
 Refresh and see that this gives us some satisfying gutters on the sides of the page. If we shringchange the screensize by resizing the window, we'll see that these gutters vanish when our screen shrinks beyond a certain size. This is because Bootstrap's grid system is **Responsive** meaning it changes depending on the size of the screen that is being shown on. Pretty neat!
 
-# Adding a Grid Row
+# Adding a Responsive Grid with Cards
 
 Now that you have a container, style your `reviews-index` template to have each review take up 1/4 of the `container`. First  wrap the `{{#each}}` block in a `row` class and then wrap each review in its own `col-sm-3` class.
 
@@ -111,7 +111,7 @@ Now that you have a container, style your `reviews-index` template to have each 
 
 <div class="row">
   {{#each reviews}}
-    <div class="col-sm-3">
+    <div class="col-md-3">
       <h2><a href="/reviews/{{this._id}}">{{this.title}}</a></h2>
       <small>{{this.movieTitle}}</small>
     </div>
@@ -119,7 +119,7 @@ Now that you have a container, style your `reviews-index` template to have each 
 </div>
 ```
 
-On to the `review-show` template
+For a stretch can you wrap each of the reviews in a `card` class? [Cards Documentation](https://getbootstrap.com/docs/4.1/components/card/)
 
 # Styling the Show Template
 
