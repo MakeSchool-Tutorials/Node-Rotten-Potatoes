@@ -120,7 +120,7 @@ You can pick whichever you like, but for these instructions we'll use the "flatl
 <head>
   ...
 >
-  <link rel="stylesheet" href="/vendor/flatly.min.css">
+  <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
 </head>
 ```
 
