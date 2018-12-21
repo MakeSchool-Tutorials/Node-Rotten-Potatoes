@@ -125,20 +125,3 @@ You can pick whichever you like, but for these instructions we'll use the "flatl
 ```
 
 Now you can mess around with the CSS classes you have previously applied to achieve the look that you want!.
-
-# Initialize, Commit, and Push
-
-Now that you have a basic initialized Express.js project, let's commit to github.
-
-```bash
-$ git init
-$ git add .
-$ git commit -m 'init'
-```
-
-Now go to github and create a public repository called `Rotten-Potatoes-Tutorial`, and now associate it as a remote for your local git project and then push to it.
-
-```bash
-$ git remote add origin GITHUB-REPO-URL
-$ git push origin master -u
-```
