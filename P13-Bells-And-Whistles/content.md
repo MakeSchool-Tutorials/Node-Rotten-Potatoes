@@ -3,13 +3,13 @@ title: "Bells and Whistles"
 slug: bells-and-whistles
 ---
 
-Now there are a few more things we can do to tighten up our website and make it look more like the big leagues. Let's look at a few.
+If you're looking for some extra challenges, there are a few more things we can do to tighten up our website and make it look more like the big leagues. Let's look at a few.
 
 # Displaying "Created At" Time
 
 Let's display a "timestamp" for when a Review was created that looks like this: "Created on Nov 3, 2018".
 
-First we have to update our model to track when documetns are created and updated. We is so common, that there is an established convention in Mongoose called "timestamps" to accomplish it. We just have to add the additional option of `{ timestamps: true }` to the schema of our model and then all documents will have a `createdAt` and `updatedAt` Date fields added and set correctly by default.
+First we have to update our model to track when documents are created and updated. This is so common, that there is an established convention in Mongoose called "timestamps" to accomplish it. We just have to add the additional option of `{ timestamps: true }` to the schema of our model and then all documents will have a `createdAt` and `updatedAt` Date fields added and set correctly by default.
 
 ```js
 const Review = mongoose.model('Review', {
@@ -23,11 +23,11 @@ Now we can display that `createdAt` timestamp in our html.
 
 > [action]
 >
-```html
+```HTML
 <!-- views/reviews-index.handlebars -->
-
-<h1>Reviews</h1>
-
+>
+ <h1>Reviews</h1>
+>
 <div class="row">
   {{#each reviews}}
     <div class="col-sm-3">
@@ -38,46 +38,25 @@ Now we can display that `createdAt` timestamp in our html.
   {{/each}}
 </div>
 ```
-> Now create a new review and see what is displayed.
+
+Now create a new review and see what is displayed.
 
 Uh-oh - what you see there is called a Unix timestamp.
 
-```
-Mon Nov 26 2018 12:57:54 GMT-0800 (Pacific Standard Time)
-```
+`Mon Nov 26 2018 12:57:54 GMT-0800 (Pacific Standard Time)`
 
-It technically says the date and time when the review was created, but it isn't very readable for humans! We could parse it manually, but let's use a neat and very common js library called [moment](https://momentjs.com/) to parse that time into something more readable.
+It technically says the date and time when the review was created, but it isn't very readable for humans!
+
+## Challenge
+
+We could parse it manually, but let's use a neat and very common js library called [moment](https://momentjs.com/) to parse that time into something more readable.
 
 Buuuuuuuuut, handlebars is a strictly **logicless** templating engine, meaning that it does not allow any logical functions to be performed in the templates. Ever.
 
 Thankfully someone wrote a helper module that wraps moment in handlebars, allowing you to call a `moment()` sort of helper inside of a handlebars template.
 
-We're going to install `helper-moment` then make it available in our project using the `app.locals` method that sets local variables across your whole application. Anything in `app.locals` will be available in your controllers and templates.
-
 > [action]
-> Install helper-moment
-```bash
-$ npm i helper-moment --save
-```
-> Now In your middleware section of your `app.js` file add moment and put it into a variable called `app.locals.momemt`.
-```js
-// app.js
-...
-
-const moment = require('helper-moment');
-app.locals.moment = moment;
-
-...
-```
-
-Now we can use helper-moment to parse the date.
-
-```html
-<small class="text-right text-muted">{{moment this.createdAt 'MM DD YYYY'}}</small>
-```
-
-> [action]
-> Now use the [moment documentation](https://momentjs.com/) to tweek the **format string** until you are happy with how the text displays.
+> If you're looking for an extra challenge, Use the [moment documentation](https://momentjs.com/) and the [helper-moment](https://github.com/helpers/helper-moment) documentation get your `timestamp` text to display in a more readable format.
 
 # Adding a Footer
 
@@ -90,34 +69,30 @@ Now let's add a footer (Brought to you by mdbootstrap.com). Add the following co
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
   <div class="container-fluid text-center text-md-left">
-    <div class="row">
-      <div class="col-md-6 mt-md-0 mt-3">
-        <h5 class="text-uppercase">Footer Content</h5>
-        <p>Here you can use rows and columns here to organize your footer content.</p>
-      </div>
-      <hr class="clearfix w-100 d-md-none pb-3">
-      <div class="col-md-3 mb-md-0 mb-3">
-          <h5 class="text-uppercase">Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="#!">Link 1</a></li>
-            <li><a href="#!">Link 2</a></li>
-            <li><a href="#!">Link 3</a></li>
-            <li><a href="#!">Link 4</a></li>
-          </ul>
-        </div>
-        <div class="col-md-3 mb-md-0 mb-3">
-          <h5 class="text-uppercase">Links</h5>
-          <ul class="list-unstyled">
-            <li><a href="#!">Link 1</a></li>
-            <li><a href="#!">Link 2</a></li>
-            <li><a href="#!">Link 3</a></li>
-            <li><a href="#!">Link 4</a></li>
-          </ul>
-        </div>
-    </div>
+     <div class="row">
+     <hr class="clearfix w-100 d-md-none pb-3">
+     <div class="col-md-6 mb-md-0 mb-3">
+         <h5 class="text-uppercase">Links</h5>
+         <ul class="list-unstyled">
+             <li><a href="#!">Link 1</a></li>
+             <li><a href="#!">Link 2</a></li>
+             <li><a href="#!">Link 3</a></li>
+             <li><a href="#!">Link 4</a></li>
+         </ul>
+     </div>
+     <div class="col-md-6 mb-md-0 mb-3">
+         <h5 class="text-uppercase">Links</h5>
+         <ul class="list-unstyled">
+             <li><a href="#!">Link 1</a></li>
+             <li><a href="#!">Link 2</a></li>
+             <li><a href="#!">Link 3</a></li>
+             <li><a href="#!">Link 4</a></li>
+         </ul>
+     </div>
+     </div>
   </div>
   <div class="footer-copyright text-center py-3">© 2018 Copyright:
-    <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
+     <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
   </div>
 </footer>
 
@@ -134,21 +109,22 @@ Now if we want to customize our style a little bit, we can add a free bootstrap 
 You can pick whichever you like, but for these instructions we'll use the "flatly" theme.
 
 > [action]
-> Go to the flatly theme and select the download the boostrap.min.css. [link](https://bootswatch.com/4/flatly/bootstrap.min.css)
+> Go to [Bootswatch](https://bootswatch.com/) and select a theme from the `Themes` dropdown
 >
-> Save that code into a file in the location: public/vendor/flatly.min.css
+> Select the dropdown of the name of the style you selected. For example, if you like the `Flatly` style, you should see a `Flatly` dropdown as the last nav bar item on the left
 >
-> Now add a link to that theme in your `<head>` tag. Make sure that this theme comes AFTER your link to bootstrap itself. Otherwise it won't work.
-
+> Select the `bootstrap.min.css` option in the dropdown
+> Copy the URL into your `<head>` tag to include the style you want. Make sure that this theme comes AFTER your link to bootstrap itself. Otherwise it won't work.
+>
 ```html
 <head>
   ...
-
+>
   <link rel="stylesheet" href="/vendor/flatly.min.css">
 </head>
 ```
 
-Now you should see that all the bootstrap styles are updated to follow the theme that you chose.
+Now you can mess around with the CSS classes you have previously applied to achieve the look that you want!.
 
 # Initialize, Commit, and Push
 

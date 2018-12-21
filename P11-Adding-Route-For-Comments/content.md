@@ -66,12 +66,12 @@ Submitting this form will include the id of the review along with the title and 
 
 # Define a Route  
 
-Define a new route in express to handle this new form. We can do this inside of a new `comments.js` controller. Remember to link this using `import comments from 'comments';` in `app.js`.
+Define a new route in express to handle this new form. We can do this inside of a new `comments.js` controller. Remember to link this using `const comments = require('./controllers/comments')(app);'` in `app.js`.
 
 ```js
 // comments.js
 
-module.exports = (app) => {
+module.exports = (app, Comment) => {
 
   // NEW Comment
   app.post('/reviews/comments', (req, res) => {
@@ -85,9 +85,9 @@ This should print the message 'reviews comment' to the browser when the form is 
 
 # Comment Model
 
-To save comments to the database you need a Comment model. You'll need to define a new model for Comments; `app.js` is getting pretty crowded it would be good to move your models into their own files and folders.
+To save comments to the database you need a Comment model. You'll need to define a new model for Comments.
 
-Make a new file and folder: `models/comment.js`
+Make a new file in your `models` folder called `comment.js`: `models/comment.js`
 
 ```js
 // comment.js
@@ -108,38 +108,14 @@ The middle section is similar to the Review model with the difference that the C
 
 The last line exports the `Comment` object by attaching it to `module.exports`. By doing this you can import `Comment` into any of your other files. Require `Comment` into `app.js`.
 
-Add the following near the top of `app.js`.
+Add the following underneath the other model require in `review.js`, we'll need it later to actually show our comments.
 
 ```js
 //review.js
 
 ...
-const Comment = require('./models/comment')
+const Comment = require('../models/comment')
 ...
-```
-
-You can do the same thing with the Review object. Create a new file: `models/review.js`.
-
-Move the Review model code from `app.js` by **cutting** and pasting it into `models/review.js`, then add extra code shown below.
-
-```js
-// review.js
-
-const mongoose = require('mongoose')
-
-const Review = mongoose.model('Review', {
-  title: String,
-  description: String,
-  movieTitle: String
-});
-
-module.exports = Review
-```
-
-Now import `models/review.js` into `app.js`. Add the following near the top of `app.js`.
-
-```js
-const Review = require('./models/review')
 ```
 
 # Adding a reference to a Review inside a Comment
@@ -176,22 +152,30 @@ You can check your work by testing your project in the browser. Any errors shoul
 
 Submitting a comment the browser should show the meesage: 'reviews comment' from `res.send('reviews comment')` from the post comment route in app.js.
 
-Revisit the post comment route now. Open app.js and look for `app.post('/reviews/comments', ...)`. You need to create a new comment and then reload the page. Make the changes below:
+Revisit the post comment route now. Open `comments.js` and look for `app.post('/reviews/comments', ...)`. You need to create a new comment and then reload the page. Make the changes below:
 
 ```js
 // comments.js
 
-// CREATE Comment
-app.post('/reviews/comments', (req, res) => {
-  Comment.create(req.body).then(comment => {
-    res.redirect(`/reviews/${comment.reviewId}`);
-  }).catch((err) => {
-    console.log(err.message);
-  });
-});
+const Comment = require('../models/comment');
+
+module.exports = (app) => {
+
+    // CREATE Comment
+    app.post('/reviews/comments', (req, res) => {
+      Comment.create(req.body).then((comment) => {
+        console.log(comment)
+        res.redirect(`/reviews/${comment.reviewId}`);
+      }).catch((err) => {
+        console.log(err.message);
+      });
+    });
+}
 ```
 
-Test your work. Write a comment and submit the form. This should show the comment in the console: `console.log(comment)`. If there are any errors they should appear in the console.
+Note the addition of requiring the `comment` model.
+
+Test your work. Write a comment and submit the form. The `console.log` call will allow you to see your comment in the console. If there are any errors they should also appear in the console.
 
 # Loading Comments for a Review
 
@@ -199,23 +183,34 @@ You still can't see comments in the browser. Let's tackle that problem next.
 
 This is a chicken and egg problem. We'd like to see comments but can't see any if they don't exist in the database. For this reason we chose to write the code that create comments first. Now we will write the code to display comments.
 
-Open `reviews.js` and make these changes to the route that shows a single review by id.
+Open `reviews.js` and make these changes to the route that shows a single review by id. Make sure to also require the `Comment` model in this controller, since we'll be using it now too!
 
 ```js
-// SHOW
-app.get('/reviews/:id', (req, res) => {
-  // find review
-  Review.findById(req.params.id).then(review => {
-    // fetch its comments
-    Comment.find({ reviewId: req.params.id }).then(comments => {
-      // respond with the template with both values
-      res.render('reviews-show', { review: review, comments: comments })
-    })
-  }).catch((err) => {
-    // catch errors
-    console.log(err.message)
+//reviews.js
+const Review = require('../models/review');
+const Comment = require('../models/comment')
+
+module.exports = function(app) {
+...
+
+  // SHOW
+  app.get('/reviews/:id', (req, res) => {
+    // find review
+    Review.findById(req.params.id).then(review => {
+      // fetch its comments
+      Comment.find({ reviewId: req.params.id }).then(comments => {
+        // respond with the template with both values
+        res.render('reviews-show', { review: review, comments: comments })
+      })
+    }).catch((err) => {
+      // catch errors
+      console.log(err.message)
+    });
   });
-});
+
+...
+
+}
 ```
 
 This is an interesting use of `Promise`! `Promise.all()` runs any number of asynchronous requests in parallel (at the same time). The code in the `then()` block is run when all of the requests have resolved. Values from the requests are returned in an array, `values` in the example above. Where `values[0]` is the first request, `values[1]` is the second request etc.

@@ -117,13 +117,15 @@ Inside the `review.js`, we have to have `mongoose` initialized, and the `Review`
 const mongoose = require('mongoose');
 
 const Review = mongoose.model('Review', {
-  ...
+  title: String,
+  description: String,
+  movieTitle: String
 });
 
 module.exports = Review;
 ```
 
-Instead of including our model `Review` through the `require` statement in our `app.js`, let's put it into the controller via its own require statement.
+Instead of including our model `Review` through the `require` statement in our `app.js`, let's put it into the controller via its own require statement. Now `app.js` only needs to keep track of the controllers:
 
 ```js
 // app.js
@@ -135,6 +137,7 @@ const reviews = require('./controllers/reviews')(app);
 // controllers/reviews.js
 
 const Review = require('../models/review');
+module.exports = function(app) {
 ...
 ```
 
