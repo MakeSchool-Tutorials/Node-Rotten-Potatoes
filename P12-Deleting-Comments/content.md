@@ -79,3 +79,9 @@ So now we've completed all our user stories
 1. Users can delete comments (comments#destroy)
 
 You used **Resource Based Development** and **Resourceful Routing** to build a review app.
+
+Congrats! You got Rotten Potatoes all set up! The following chapter has some extra challenges if you're looking to improve RP even more.
+
+# Feedback and Review
+
+Please take a moment to rate your understanding of learning outcomes from this tutorial, and how we can improve it via our [tutorial feedback form](https://goo.gl/forms/ENTvtO2mbWuxBQe63)

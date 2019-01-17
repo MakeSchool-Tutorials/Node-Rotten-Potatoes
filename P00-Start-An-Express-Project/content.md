@@ -9,6 +9,16 @@ By finishing this tutorial you will continue to deepen your knowledge of Node.js
 
 Before we get started, let's make a plan for what **User Stories** we're going to build. Then we'll jump in and start Express.js app and add a templating engine.
 
+# Learning Outcomes
+
+By the end of this tutorial, you should be able to...
+
+1. Build a web app using Node.js, Express.js, and Handlebars
+1. Utilize a NoSQL database (MongoDB) for your web app
+1. Integrate RESTful and Resourceful routing in your web app
+1. CRUD a single resource
+1. Understand how to use Bootstrap for basic styling
+
 # How to Plan a Coding Project: User Stories
 
 Software development these days is usually organized into **Agile Sprints** that are usually two weeks long. You'll notice evidence of this if you ever update your apps and read the update text. Sometimes it just says:
