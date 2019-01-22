@@ -106,9 +106,18 @@ This is very similar to the Review model created earlier. The first line imports
 
 The middle section is similar to the Review model with the difference that the Comment model only saves a `title` and `content`.
 
-The last line exports the `Comment` object by attaching it to `module.exports`. By doing this you can import `Comment` into any of your other files. Require `Comment` into `app.js`.
+The last line exports the `Comment` object by attaching it to `module.exports`. By doing this you can import `Comment` into any of your other files.
 
-Add the following underneath the other model require in `review.js`, we'll need it later to actually show our comments.
+Require `Comment` into `app.js`, right underneath your require for `Reviews`:
+
+```js
+// app.js
+
+const reviews = require('./controllers/reviews')(app);
+const comments = require('./controllers/comments')(app);
+```
+
+Also add the following underneath the other model require in `review.js`, we'll need it later to actually show our comments.
 
 ```js
 //review.js
