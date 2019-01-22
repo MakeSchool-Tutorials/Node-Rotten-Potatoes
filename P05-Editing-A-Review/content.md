@@ -137,7 +137,7 @@ First make a folder called `partials` inside the `views` folder. Now in that `pa
 <!-- views/partials/reviews-form.handlebars -->
 
 <fieldset>
-  <legend>Edit Review</legend>
+  <legend>{{title}}</legend>
   <!-- TITLE -->
   <p>
     <label for="review-title">Title</label><br>
@@ -184,6 +184,27 @@ And now we can use this partial to replace that information in both our new and 
     <button type="submit">Save Review</button>
   </p>
 </form>
+```
+
+Finally, notice how we included a `{{title}}` in `views/partials/reviews-form.handlebars`. We need to ensure that gets populated correctly based on whether a user is editing a review or creating a new one. Update your `new` and `edit` routes in `/controllers/reviews.js` to include the `title` parameter:
+
+```js
+// reviews.js
+...
+
+// NEW
+app.get('/reviews/new', (req, res) => {
+    res.render('reviews-new', {title: "New Review"});
+})
+
+...
+
+// EDIT
+app.get('/reviews/:id/edit', (req, res) => {
+  Review.findById(req.params.id, function(err, review) {
+    res.render('reviews-edit', {review: review, title: "Edit Review"});
+  })
+})
 ```
 
 Triumph! DRY code. (Don't Repeat Yourself)
