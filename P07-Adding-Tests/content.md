@@ -22,8 +22,11 @@ So the tests you write today for your new feature, in the future become regressi
 We're going to use a few tools to test with, let's install them all up front:
 
 ```bash
-$ npm install mocha chai chai-http --save
+$ npm install mocha chai chai-http --save-dev
 ```
+
+>[info]
+> We use `--save-dev` when we want to save dependencies that will not be needed for pushing to production. In this case, we don't need our testing dependencies in production, so we use `--save-dev` instead of `--save`.
 
 * `mocha` is our **Test Runner** - it actually runs our test code.
 * `chai` is our **Assertion Library** - it gives us syntactic sugar to make writing test intuitive.
