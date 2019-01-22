@@ -139,6 +139,9 @@ In your terminal you should see "Portfolio App listening on port 3000!" output i
 
 Hello there code!
 
+>[info]
+> If you want to start your server by just entering `nodemon`, then edit the `main` option in `package.json` file to `app.js` instead of `index.js`
+
 # Add Handlebars.js as a Templating Engine
 
 Now, we are going to need to render HTML for our project, so we have to add a **Templating Engine** if we want extend Express.js to use HTML.
