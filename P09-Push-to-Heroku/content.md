@@ -115,7 +115,7 @@ Then we have to point to this production mongodb database URI in our `app.js` fi
 // app.js
 
 var mongoose = require('mongoose');
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes');
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
 ```
 
 Now if we try to open our heroku app what happens?

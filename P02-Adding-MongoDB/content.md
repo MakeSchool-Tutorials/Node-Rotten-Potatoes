@@ -95,7 +95,7 @@ Now initialize mongoose in `app.js` and connect to our database that we'll name 
 ...
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rotten-potatoes');
+mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
 
 ...
 
@@ -111,7 +111,7 @@ The model is the **Data Layer** of your application. Models are where you put th
 // app.js
 
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/rotten-potatoes');
+mongoose.connect('mongodb://localhost/rotten-potatoes', { useNewUrlParser: true });
 
 const Review = mongoose.model('Review', {
   title: String,
