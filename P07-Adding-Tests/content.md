@@ -19,11 +19,10 @@ So the tests you write today for your new feature, in the future become regressi
 
 # Adding A Test Runner and Assertion Library
 
-We're goint to use a few tools to test with, let's install them all up front:
+We're going to use a few tools to test with, let's install them all up front:
 
 ```bash
-$ npm install -g mocha
-$ npm install --save chai chai-http
+$ npm install mocha chai chai-http --save
 ```
 
 * `mocha` is our **Test Runner** - it actually runs our test code.
