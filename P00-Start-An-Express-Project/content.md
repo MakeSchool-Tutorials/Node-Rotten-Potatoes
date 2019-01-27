@@ -135,7 +135,7 @@ $ npm install nodemon -g
 $ nodemon app.js
 ```
 
-In your terminal you should see "Portfolio App listening on port 3000!" output in your terminal from the `console.log` inside of `app.listen(3000 ...)`. Now on your browser at `http://localhost:3000` you should see "Hello World".
+In your terminal you should see "App listening on port 3000!" output in your terminal from the `console.log` inside of `app.listen(3000 ...)`. Now on your browser at `http://localhost:3000` you should see "Hello World".
 
 Hello there code!
 
