@@ -102,6 +102,6 @@ $ git push
 
 # A Challenge
 
-Can you make changes to your `reviews` array in `app.js` and see it reflected in your `reviews-index` template?
-
-# Now Commit
+> [challenge]
+>
+> Can you make changes to your `reviews` array in `app.js` and see it reflected in your `reviews-index` template?
