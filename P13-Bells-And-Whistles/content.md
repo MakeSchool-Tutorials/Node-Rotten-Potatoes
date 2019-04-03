@@ -11,6 +11,10 @@ Let's display a "timestamp" for when a Review was created that looks like this: 
 
 First we have to update our model to track when documents are created and updated. This is so common, that there is an established convention in Mongoose called "timestamps" to accomplish it. We just have to add the additional option of `{ timestamps: true }` to the schema of our model and then all documents will have a `createdAt` and `updatedAt` Date fields added and set correctly by default.
 
+> [action]
+>
+> Update `models/review.js` to use `timestamps`:
+>
 ```js
 const Review = mongoose.model('Review', {
   ...
@@ -19,24 +23,19 @@ const Review = mongoose.model('Review', {
 });
 ```
 
-Now we can display that `createdAt` timestamp in our html.
+Now we can display that `createdAt` timestamp in our html:
 
 > [action]
 >
+> Update `view/reviews-show.handlebars` to include the `createdAt` field right below the `title`:
+>
 ```HTML
-<!-- views/reviews-index.handlebars -->
+...
 >
- <h1>Reviews</h1>
+<h1>{{review.title}}</h1>
+<p class="text-muted">Created on: {{review.createdAt}}</p>
 >
-<div class="row">
-  {{#each reviews}}
-    <div class="col-sm-3">
-      <h2><a href="/reviews/{{this._id}}">{{this.title}}</a></h2>
-      <small>{{this.movieTitle}}</small>
-      <small class="text-right text-muted">{{this.createdAt}}</small>
-    </div>
-  {{/each}}
-</div>
+...
 ```
 
 Now create a new review and see what is displayed.
@@ -47,28 +46,91 @@ Uh-oh - what you see there is called a Unix timestamp.
 
 It technically says the date and time when the review was created, but it isn't very readable for humans!
 
-## Challenge
+# Formatting Timestamps
 
 We could parse it manually, but let's use a neat and very common js library called [moment](https://momentjs.com/) to parse that time into something more readable.
 
-Buuuuuuuuut, handlebars is a strictly **logicless** templating engine, meaning that it does not allow any logical functions to be performed in the templates. Ever.
+> [action]
+>
+> Install moment
+>
+```bash
+$ npm install moment --save
+```
+>
+> Now update the `/show` route in `controllers/reviews.js` to format the `createdAt` date into something we can read:
+>
+```js
+//reviews.js
+>
+const Review = require('../models/review');
+const Comment = require('../models/comment');
+// Got to import the libary
+const moment = require('moment');
+module.exports = function (app) {
+>
+...
+>
+  // SHOW
+  app.get('/movies/:movieId/reviews/:id', (req, res) => {
+      // find review
+      Review.findById(req.params.id).then(review => {
+          let createdAt = review.createdAt;
+          createdAt = moment(createdAt).format('MMMM Do YYYY, h:mm:ss a');
+          review.createdAtFormatted = createdAt;
+          // fetch its comments
+          Comment.find({ reviewId: req.params.id }).then(comments => {
+              comments.reverse();
+              // respond with the template with both values
+              res.render('reviews-show', { review: review, comments: comments })
+          })
+      }).catch((err) => {
+          // catch errors
+          console.log(err.message)
+      });
+  });
+>
+...
+>
+}
+```
 
-Thankfully someone wrote a helper module that wraps moment in handlebars, allowing you to call a `moment()` sort of helper inside of a handlebars template.
+Finally, let's use our new property:
 
 > [action]
-> If you're looking for an extra challenge, Use the [moment documentation](https://momentjs.com/) and the [helper-moment](https://github.com/helpers/helper-moment) documentation get your `timestamp` text to display in a more readable format.
+>
+> Update `views/reviews-show.handlebars` to include the `createdAtFormatted` property:
+>
+```html
+<!-- views/reviews-show.handlebars -->
+...
+>
+<small class="text-muted">Created on: {{event.createdAtFormatted}}</small>
+>
+...
+```
+
+Reload your browser and check the timestamp. Doesn't that look so much better?
+
+> [info]
+> Want it to display differently? Use the [moment documentation](https://momentjs.com/) to tweak the **format string** until you are happy with how the text displays.
+
 
 # Adding a Footer
 
 Now let's add a footer (Brought to you by mdbootstrap.com). Add the following code after the `{{{body}}}` tag but before the `</body>` tag or any `<script>` tags.
 
+> [action]
+>
+> Add the following code after the `{{{body}}}` tag, but before the `</body>` tag or any `<script>` tags in `views/layouts/main.handlebars`.
+>
 ```html
 <!-- main.handlebars -->
 ...
-
+>
 <!-- Footer -->
 <footer class="page-footer font-small blue pt-4">
-  <div class="container-fluid text-center text-md-left">
+  <div class="container-fluid text-center">
      <div class="row">
      <hr class="clearfix w-100 d-md-none pb-3">
      <div class="col-md-6 mb-md-0 mb-3">
@@ -95,7 +157,7 @@ Now let's add a footer (Brought to you by mdbootstrap.com). Add the following co
      <a href="https://mdbootstrap.com/education/bootstrap/"> MDBootstrap.com</a>
   </div>
 </footer>
-
+>
 ...
 ```
 
@@ -125,3 +187,11 @@ You can pick whichever you like, but for these instructions we'll use the "flatl
 ```
 
 Now you can mess around with the CSS classes you have previously applied to achieve the look that you want!.
+
+# Now Commit
+
+```bash
+$ git add .
+$ git commit -m 'added createdAt, footer, and bootstrap theme'
+$ git push
+```
