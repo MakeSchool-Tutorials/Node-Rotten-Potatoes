@@ -186,7 +186,7 @@ You can pick whichever you like, but for these instructions we'll use the "flatl
 </head>
 ```
 
-Now you can mess around with the CSS classes you have previously applied to achieve the look that you want!. Note that this will cause some areas of the app (i.e. trailers, home page, etc.) to look a _lot_ different from what we initially did. But all of it is adjustable with some additional CSS!
+Now you can mess around with the CSS classes you have previously applied to achieve the look that you want!. Note that this will cause some areas of the app to look a _lot_ different from what we initially did. But all of it is adjustable with some additional CSS!
 
 # Now Commit
 
