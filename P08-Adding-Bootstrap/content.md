@@ -21,9 +21,13 @@ It is easy to get started with bootstrap quickly by using the CDN links bootstra
 
 We'll add the `<link>` to bootstrap's css in our `<head>` tag in the `main.handlebars` file. And although we aren't going to use any of bootstrap's JavaScript's components, for completeness's sake, we'll put the JavaScript `<script>` tag just before the closing `</body>` tag.
 
+> [action]
+>
+> Add the bootstrap links to `views/layouts/main.handlebars`:
+>
 ```html
 <!-- views/layouts/main.handlebars -->
-
+>
 <!doctype html>
 <html>
 <head>
@@ -33,9 +37,9 @@ We'll add the `<link>` to bootstrap's css in our `<head>` tag in the `main.handl
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 </head>
 <body>
-
+>
   {{{body}}}
-
+>
   <!-- Latest compiled and minified JavaScript -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </body>
@@ -48,11 +52,13 @@ Just after doing that, refresh your page. The typography and layout should chang
 
 Add the most common navigational component - a top navbar. We'll have it have a button to create a new review so that anywhere a user navigates to they can always make a new review.
 
-Make a new partial. Create a new file `navbar.handlebars` in the `views/partials` directory.
-
+> [action]
+>
+> Make a new partial. Create a new file `navbar.handlebars` in the `views/partials` directory.
+>
 ```html
 <!-- views/partials/navbar.handlebars -->
-
+>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
@@ -66,15 +72,15 @@ Make a new partial. Create a new file `navbar.handlebars` in the `views/partials
   </div>
 </nav>
 ```
-
-Include this in `views/layouts/main.handlebars`
-
+>
+>Include this in `views/layouts/main.handlebars`
+>
 ```html
 ...
 <body>
-
+>
   {{> navbar}}
-
+>
   {{{body}}}
  ...
 ```
@@ -83,8 +89,10 @@ Include this in `views/layouts/main.handlebars`
 
 People argue about the usefulness of some of the more complex parts of Bootstrap, but everyone agrees that to build websites you need a grid system. Bootstrap ships with a 12-column grid. Meaning you can break up the whole page, or any element into 12 columns and that way construct an appealing layout.
 
-We'll start by wrapping the `{{{body}}}` with a `container` class.
-
+> [action]
+>
+> We'll start by wrapping the `{{{body}}}` with a `container` class. in `views/layouts/main.handlebars`:
+>
 ```html
 <!-- views/layouts/main.handlebars -->
 ...
@@ -96,7 +104,7 @@ We'll start by wrapping the `{{{body}}}` with a `container` class.
 ...
 ```
 
-Refresh and see that this gives us some satisfying gutters on the sides of the page. If we shringchange the screensize by resizing the window, we'll see that these gutters vanish when our screen shrinks beyond a certain size. This is because Bootstrap's grid system is **Responsive** meaning it changes depending on the size of the screen that is being shown on. Pretty neat!
+Refresh and see that this gives us some satisfying gutters on the sides of the page. If we change the screen size by resizing the window, we'll see that these gutters vanish when our screen shrinks beyond a certain size. This is because Bootstrap's grid system is **Responsive** meaning it changes depending on the size of the screen that is being shown on. Pretty neat!
 
 # Adding a Responsive Grid with Cards
 
@@ -104,11 +112,15 @@ Now that you have a container, style your `reviews-index` template to have each 
 
 `col-sm-3` means: On screens larger than a tablet, have this element take up three cells out of twelve that are the whole width of its parent element. Since 3/12 = 1/4 this will give us each review taking up one quarter of the `container`'s width.
 
+> [action]
+>
+> Add the class to the following `div` in `views/reviews-index.handlebars`:
+>
 ```html
 <!-- views/reviews-index.handlebars -->
-
+>
 <h1>Reviews</h1>
-
+>
 <div class="row">
   {{#each reviews}}
     <div class="col-md-3">
@@ -119,15 +131,23 @@ Now that you have a container, style your `reviews-index` template to have each 
 </div>
 ```
 
-For a stretch can you wrap each of the reviews in a `card` class? [Cards Documentation](https://getbootstrap.com/docs/4.1/components/card/)
+<!-- -->
+
+> [challenge]
+>
+> Can you wrap each of the reviews in a `card` class? Use the [Cards Documentation](https://getbootstrap.com/docs/4.1/components/card/) for help
 
 # Styling the Show Template
 
 The show template should make the text relatively narrow, because people don't like reading all the way across the screen. Use an `offset` grid class to push a column over to the right.
 
+> [action]
+>
+> Add the following classes to `views/reviews-show.handlebars`:
+>
 ```html
 <!-- views/reviews-show.handlebars -->
-
+>
 <a href="/">Back to Home</a>
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
@@ -144,11 +164,13 @@ The show template should make the text relatively narrow, because people don't l
 
 # Styling the Forms
 
-Now let's add some bootstrap styling to our new and edit templates and to our `reviews-form` template.
-
+> [action]
+>
+> Now let's add some bootstrap styling to `views/reviews-new.handlebars`:
+>
 ```html
 <!-- views/reviews-new.handlebars -->
-
+>
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
     <form method="POST" action="/reviews">
@@ -161,12 +183,12 @@ Now let's add some bootstrap styling to our new and edit templates and to our `r
   </div>
 </div>
 ```
-
-Make the same changes to `reviews-edit.handlebars`:
-
+>
+> Make the same changes to `views/reviews-edit.handlebars`:
+>
 ```html
 <!-- views/reviews-edit.handlebars -->
-
+>
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
     <form method="POST" action="/reviews/{{review._id}}?_method=PUT">
@@ -178,13 +200,18 @@ Make the same changes to `reviews-edit.handlebars`:
     </form>
   </div>
 </div>
-
 ```
 
-Now add some Bootstrap classes to `reviews-form.handlebars` partial. These class will make your form and form elements look better. Notice that each for element is wrapped in a `div` with the class `form-group` and form elements, like `input` get the class `form-control`.
+Now add some Bootstrap classes to the `reviews-form.handlebars` partial. These class will make your form and form elements look better. Notice that each form element is wrapped in a `div` with the class `form-group` and form elements, like `input` get the class `form-control`.
 
+> [action]
+>
+> Update `views/partials/reviews-form.handlebars` to the following:
+>
 ```html
+>
 ...
+>
 <fieldset>
   <legend>Edit Review</legend>
   <!-- TITLE -->
@@ -192,13 +219,13 @@ Now add some Bootstrap classes to `reviews-form.handlebars` partial. These class
     <label for="review-title">Title</label><br>
     <input class="form-control" id="review-title" type="text" name="title" value="{{review.title}}"/>
   </div>
-
+>
   <!-- MOVIE TITLE -->
   <div class="form-group">
     <label for="movie-title">Movie Title</label><br>
     <input class="form-control" id="movie-title" type="text" name="movieTitle" value="{{review.movieTitle}}" />
   </div>
-
+>
   <!-- DESCRIPTION -->
   <div class="form-group">
     <label for="review-description">Description</label><br>
@@ -207,16 +234,17 @@ Now add some Bootstrap classes to `reviews-form.handlebars` partial. These class
 </fieldset>
 ```
 
-How does she look?
+Looking pretty good now, huh?
 
 # Now Commit
 
+> [action]
+>
+>
 ```bash
 $ git add .
 $ git commit -m 'Added vanilla bootstrap'
 $ git push
 ```
-
-# Onward! Almost Done!
 
 Almost done! Let's finish it off.
