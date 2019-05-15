@@ -20,20 +20,26 @@ Normally in a site like Rotten Potatoes, we would only want authors of reviews t
 
 We want people to be able to edit and update reviews, let's again start from the user's perspective. Edit and Update are similar to New and Create. First we need a link to the edit route that renders the `reviews-edit`, and then we submit that edit form to the update route which will redirect to the show action.
 
-So let's make the edit link:
-
+> [action]
+>
+> So let's make the edit link in `views/reviews-show.handlebars`:
+>
 ```html
 <!-- views/reviews-show.handlebars -->
-
+>
 <h1>{{review.title}}</h1>
 <h2>{{review.movieTitle}}</h2>
 <p>{{review.description}}</p>
-
+>
 <p><a href="/reviews/{{review._id}}/edit">Edit</a></p>
 ```
 
 Ok now if we click that edit link, we'll see the route is not found. So let's make our edit action. The edit action is like the show action because we look up the `review` by its `_id` in the url parameter, but then we render the information in a template as editable form elements.
 
+> [action]
+>
+> Add an edit route in `app.js`:
+>
 ```js
 // app.js
 ...
@@ -51,9 +57,13 @@ And of course we'll need that `reviews-edit` template. This template is a bit we
 1. **`value=""`** - we are using the `value` html attribute to pass in the values of the review we are trying to edit.
 1. **`<textarea>{{}}</textarea>`** - the `<textarea>` HTML tag does not have a `value` attribute, so its contents must go between its open and close tags.
 
+> [action]
+>
+> Add a `views/reviews-edit.handlebars` template:
+>
 ```html
 <!-- views/reviews-edit.handlebars -->
-
+>
 <form method="POST" action="/reviews/{{review._id}}?_method=PUT">
   <fieldset>
     <legend>Edit Review</legend>
@@ -62,13 +72,13 @@ And of course we'll need that `reviews-edit` template. This template is a bit we
       <label for="review-title">Title</label><br>
       <input id="review-title" type="text" name="title" value="{{review.title}}"/>
     </p>
-
+>
     <!-- MOVIE TITLE -->
     <p>
       <label for="movie-title">Movie Title</label><br>
       <input id="movie-title" type="text" name="movieTitle" value="{{review.movieTitle}}" />
     </p>
-
+>
     <!-- DESCRIPTION -->
     <p>
       <label for="review-description">Description</label><br>
@@ -86,32 +96,51 @@ And of course we'll need that `reviews-edit` template. This template is a bit we
 
 Remember that you needed to intercept this POST request and make sure its processed as a PUT request so it goes to our update action. (this will work for our delete action later too!). We'll use the [method-override]((https://github.com/expressjs/method-override)) middleware.
 
+> [action]
+>
+> install `method-override`:
 ```bash
 $ npm install method-override --save
 ```
-After importing the new package use `require('method-override')` to import it into your project. Add the following at the top of `app.js`.
 
-`const methodOverride = require('method-override')`
+After importing the new package use `require('method-override')` to import it into your project.
 
-Now add `methodOverride` as middleware after `const express = require('express')` but before your reoutes.
-
+> [action]
+>
+> Add the following near the top of `app.js`.
+>
 ```js
-
+// app.js
+const methodOverride = require('method-override')
+>
+...
+```
+>
+> Now add `methodOverride` as middleware after `const express = require('express')` but before your routes in `app.js`:
+>
+```js
+>
+...
+>
 const express = require('express')
 const methodOverride = require('method-override')
-
+>
 ...
-
+>
 const app = express()
-
+>
 ...
-
+>
 // override with POST having ?_method=DELETE or ?_method=PUT
 app.use(methodOverride('_method'))
 ```
 
 Now you can create your update action and it will receive requests with a PUT method.
 
+> [action]
+>
+> Add the update route to `app.js`:
+>
 ```js
 // app.js
 ...
@@ -131,11 +160,13 @@ app.put('/reviews/:id', (req, res) => {
 
 Did you notice that the code of our `reviews-new` and `reviews-edit` have a lot of similarities? Pretty much everything inside the `form` tag is the same. Let's use a **Partial Template** to pull that code out into its own template.
 
-First make a folder called `partials` inside the `views` folder. Now in that `partials` folder create the `reviews-form.handlebars`.
-
+> [action]
+>
+> First make a folder called `partials` inside the `views` folder. Now in that `partials` folder create the `reviews-form.handlebars`.
+>
 ```html
 <!-- views/partials/reviews-form.handlebars -->
-
+>
 <fieldset>
   <legend>{{title}}</legend>
   <!-- TITLE -->
@@ -143,13 +174,13 @@ First make a folder called `partials` inside the `views` folder. Now in that `pa
     <label for="review-title">Title</label><br>
     <input id="review-title" type="text" name="title" value="{{review.title}}"/>
   </p>
-
+>
   <!-- MOVIE TITLE -->
   <p>
     <label for="movie-title">Movie Title</label><br>
     <input id="movie-title" type="text" name="movieTitle" value="{{review.movieTitle}}" />
   </p>
-
+>
   <!-- DESCRIPTION -->
   <p>
     <label for="review-description">Description</label><br>
@@ -160,23 +191,27 @@ First make a folder called `partials` inside the `views` folder. Now in that `pa
 
 And now we can use this partial to replace that information in both our new and edit templates.
 
+> [action]
+>
+> Update `views/reviews-new.handlebars` and `views/reviews-edit.handlebars` to use the partial:
+>
 ```html
 <!-- views/reviews-new.handlebars -->
-
+>
 <form method="POST" action="/reviews">
   {{> reviews-form}}
-
+>
   <!-- BUTTON -->
   <p>
     <button type="submit">Save Review</button>
   </p>
-
+>
 </form>
 ```
-
+>
 ```html
 <!-- views/reviews-edit.handlebars -->
-
+>
 <form method="POST" action="/reviews/{{review._id}}?_method=PUT">
   {{> reviews-form}}
   <!-- BUTTON -->
@@ -186,19 +221,23 @@ And now we can use this partial to replace that information in both our new and 
 </form>
 ```
 
-Finally, notice how we included a `{{title}}` in `views/partials/reviews-form.handlebars`. We need to ensure that gets populated correctly based on whether a user is editing a review or creating a new one. Update your `new` and `edit` routes in `/controllers/reviews.js` to include the `title` parameter:
+Finally, notice how we included a `{{title}}` in `views/partials/reviews-form.handlebars`. We need to ensure that gets populated correctly based on whether a user is editing a review or creating a new one.
 
+> [action]
+>
+> Update your `new` and `edit` routes in `app.js` to include the `title` parameter:
+>
 ```js
-// reviews.js
+// app.js
 ...
-
+>
 // NEW
 app.get('/reviews/new', (req, res) => {
     res.render('reviews-new', {title: "New Review"});
 })
-
+>
 ...
-
+>
 // EDIT
 app.get('/reviews/:id/edit', (req, res) => {
   Review.findById(req.params.id, function(err, review) {
@@ -211,12 +250,17 @@ Triumph! DRY code. (Don't Repeat Yourself)
 
 # Now Commit
 
+> [action]
+>
+>
 ```bash
 $ git add .
 $ git commit -m 'Users can edit and update reviews'
 $ git push
 ```
 
-# Extra Credit: "Cancel" buttons
+# Stretch Challenge: "Cancel" buttons
 
-Sometimes people might start making a resource and then want to cancel. Can you add a "Cancel" button next to the "Save Review" button? What will it do? Where will it link to?
+> [challenge]
+>
+> Sometimes people might start making a resource and then want to cancel. Can you add a "Cancel" button next to the "Save Review" button? What will it do? Where will it link to?
