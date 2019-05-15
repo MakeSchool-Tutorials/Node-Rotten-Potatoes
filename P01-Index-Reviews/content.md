@@ -3,7 +3,7 @@ title: "See All Reviews"
 slug: index-reviews
 ---
 
-Following our **User Stories** we are going to define a single **Resource** in this app called a `Review`.
+Following our **User Stories** we are going to define a single **Resource** in this app called a `Review` so that we have something to CRUD:
 
 1. Users can view all reviews (index)
 1. Users can create a review (new/create)
@@ -17,8 +17,12 @@ A **Resource** is an abstract object that we use to organize data, code, and the
 
 Resources can also be related to each other. For example, articles may have comments; a building resource might have floors, and the floors may have units; a user might have friends (like in Facebook).
 
-All resources have a few actions in common that are called **Resourceful Routes**. Memorize this table of routes:
+All resources have a few actions in common that are called **Resourceful Routes**.
 
+> [action]
+>
+> Review this table of routes, as we'll be referencing it frequently in this tutorial, and you should be familiar with what each route does:
+>
 | URL              | HTTP Verb | Action  | What it Does |
 |------------------|-----------|---------|---------------|
 | /reviews          | GET       | index   | See all reviews |
@@ -37,15 +41,19 @@ We're going to start with the index action and then show, and then we'll look at
 
 Let's make a route to `/reviews` for the index action where we can see all the reviews that we've created. Eventually this will be on our root route, but we can start making it its own separate path.
 
+> [action]
+>
+> Add the following to `app.js`:
+>
 ```js
 // app.js
-
+>
 // OUR MOCK ARRAY OF PROJECTS
 let reviews = [
   { title: "Great Review", movieTitle: "Batman II" },
   { title: "Awesome Movie", movieTitle: "Titanic" }
 ]
-
+>
 // INDEX
 app.get('/reviews', (req, res) => {
   res.render('reviews-index', { reviews: reviews });
@@ -63,6 +71,10 @@ If you refresh `localhost:3000/reviews` right now what do you see? An error! **T
 
 So to fix this error, let's add the template `views/reviews-index.handlebars`. We're going to use the Handlebars.js `{{#each}}` iterator to loop over our array of reviews and display each one's title.
 
+> [action]
+>
+> Create the `views/reviews-index.handlebars` template and add the following to it:
+>
 ```html
 <!-- reviews-index -->
 <h1>Reviews</h1>
@@ -79,18 +91,20 @@ If you refresh `localhost:3000/reviews` now what do you see?
 
 # Setting the Root Route - '/'
 
-Let's update the `/reviews` route to be our root route. Just change the path from `/reviews` to `/` and delete or comment out the hello world root route we made before.
-
+> [action]
+>
+> Let's update the `/reviews` route to be our root route. Just change the path from `/reviews` to `/` and delete or comment out the hello world root route we made before.
+>
 ```js
 // app.js
-
+>
 // INDEX
 app.get('/', (req, res) => {
   res.render('reviews-index', { reviews: reviews });
 })
 ```
 
-Now navigate to `localhost:3000`.
+Now navigate to `localhost:3000`. Do you see the mock reviews displayed?
 
 # Now Commit
 
@@ -100,7 +114,9 @@ $ git commit -m 'Users can see all reviews'
 $ git push
 ```
 
-# A Challenge
+# Stretch Challenge
+
+Throughout Make School tutorials, you'll see sections designated by a green box with a trophy symbol. These are **stretch challenges**, and are provided for those who want to dive deeper on a topic, or get more practice. They are not required to complete the tutorial, but we encourage you to try them! More practice is always beneficial!
 
 > [challenge]
 >
