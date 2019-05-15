@@ -22,13 +22,17 @@ Remember always start with what the user will see and do. To create the show act
 
 MongoDB automatically creates an `_id` attribute on anything you save. So we can use that `_id` attribute for our `:id` in the route. This is called the **Url or Request Parameter** and we access it in Express using the `req.params` parameter inside a controller route.
 
+> [action]
+>
+> Update `views/reviews-index.handlebars` to the following:
+>
 ```html
 <!-- views/reviews-index.handlebars -->
-
+>
 <h1>Reviews</h1>
-
+>
 <a href="/reviews/new">New Review</a>
-
+>
 {{#each reviews}}
   <h2><a href="/reviews/{{this._id}}">{{this.title}}</a></h2>
   <small>{{this.movieTitle}}</small>
@@ -37,11 +41,15 @@ MongoDB automatically creates an `_id` attribute on anything you save. So we can
 
 What happens if you click on one of those links? A friendly error! Let's do what it says and make the route.
 
+> [action]
+>
+> Add the `/reviews/:id` route to `app.js`:
+>
 ```js
 // app.js
-
+>
 ...
-
+>
 // SHOW
 app.get('/reviews/:id', (req, res) => {
   res.send('I\'m a review')
@@ -54,11 +62,15 @@ Now what happens if you go to that route?
 
 Ok time to add a template with an actual `review` object!
 
+> [action]
+>
+> Update the `/reviews/:id` route in `app.js` to the following:
+>
 ```js
 // app.js
-
+>
 ...
-
+>
 // SHOW
 app.get('/reviews/:id', (req, res) => {
   Review.findById(req.params.id).then((review) => {
@@ -71,37 +83,48 @@ app.get('/reviews/:id', (req, res) => {
 
 Now if we go to the route, we'll see the error that no template `reviews-show` is found. Great! Let's make it.
 
+> [action]
+>
+> Create `views/reviews-show.handlebars`:
+>
 ```html
 <!-- views/reviews-show.handlebars -->
-
+>
 <h1>{{review.title}}</h1>
 <h2>{{review.movieTitle}}</h2>
 <p>{{review.description}}</p>
 ```
 
-Now what do you see? All the links to reviews should work now.
+Now what do you see? All the links to reviews should work now!
 
 # Add a Back Link
 
-This is good, the show action is working, but there is a bit of a problem. Once you are on the show action page, you can't get back home. Let's fix that by putting in a "Back" link.
+This is good, the show action is working, but there is a bit of a problem. Once you are on the show action page, you can't get back home.
 
+> [action]
+>
+> Let's fix that by putting in a "Back" link in `views/reviews-show.handlebars`:
+>
 ```html
 <!-- views/reviews-show.handlebars -->
-
+>
 <a href="/">Back to Home</a>
-
+>
 <h1>{{review.title}}</h1>
 <h5>{{review.movieTitle}}</h5>
 <p>{{review.description}}</p>
-
 ```
 
 That's better. What else could we do now that we have this show route?
 
 # Update the Create Action's Redirect
 
-It makes sense from the user's perspective that after we create a new review, we should be automatically redirected to it, no? Let's change our create route to redirect to the show path.
+It makes sense from the user's perspective that after we create a new review, we should be automatically redirected to it, no?
 
+> [action]
+>
+> Change the create route to redirect to the show path in `app.js`:
+>
 ```js
 // CREATE
 app.post('/reviews', (req, res) => {
@@ -116,6 +139,9 @@ app.post('/reviews', (req, res) => {
 
 # Now Commit
 
+> [action]
+>
+> 
 ```bash
 $ git add .
 $ git commit -m 'Users can see single reviews'
