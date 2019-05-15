@@ -191,4 +191,4 @@ $ git commit -m 'Addressed separation of concerns'
 $ git push
 ```
 
-So now it is refactored and all working It ain't pretty though... let's work on that next.
+So now it is refactored and all working It ain't pretty though... more on that in a bit, but first we should make sure we know how to test what we got!
