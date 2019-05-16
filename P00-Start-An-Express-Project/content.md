@@ -250,16 +250,28 @@ Now when you visit `localhost:3000` you now should see "Handlebars are Cool!" in
 
 # Initialize, Commit, and Push
 
-Now that you have a basic initialized Express.js project, let's commit to github.
+Let's start by installing git if you don't already have it installed. And then initializing our project folder as a git repository. Then we can check the git status. We should see all our files as uncommitted and unstaged to commit.
 
 > [action]
 >
-> Add and commit your code!
+> Install git if you haven't, and then initialize it:
 >
 ```bash
+$ brew install git
 $ git init
+$ git status
+```
+
+Now we can stage all the files to commit, then commit them adding a commit message, and then double check our status. We should see we have no files to commit because we just committed them all.
+
+> [action]
+>
+> Add and commit what we have so far:
+>
+```bash
 $ git add .
 $ git commit -m 'init'
+$ git status
 ```
 >
 > Now go to github and create a public repository called `Rotten-Potatoes-Tutorial`.
