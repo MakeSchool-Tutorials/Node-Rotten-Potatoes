@@ -90,6 +90,10 @@ You used **Resource Based Development** and **Resourceful Routing** to build a r
 
 Congrats! You got Rotten Potatoes all set up! The following chapter has some extra challenges if you're looking to improve RP even more.
 
+> [action]
+>
+> Reflect on what you've learned so far. How does it relate to the content in the rest of the course? What will you take with you?
+
 # Feedback and Review - 2 minutes
 
 **We promise this won't take longer than 2 minutes!**
