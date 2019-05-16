@@ -29,11 +29,15 @@ We'll use the `:id` url parameter to look up the comment we want to destroy.
 
 As always, we start with what the users sees and does. So let's make a link to delete a comment.
 
-We can't set an `<a>` tag's method (it is always GET) so we are going to use a form to submit a DELETE request to our delete action path. Let's add this link to the comments partial at: `views/partials/comment.handlebars`.
+We can't set an `<a>` tag's method (it is always GET) so we are going to use a form to submit a DELETE request to our delete action path.
 
+> [action]
+>
+> Let's add this link to the comments partial at: `views/partials/comment.handlebars`.
+>
 ```HTML
 <!-- views/partials/comment.handlebars -->
-
+>
 <div class="card">
   <div class="card-block">
     <h4 class="card-title">{{this.title}}</h4>
@@ -50,6 +54,10 @@ We can't set an `<a>` tag's method (it is always GET) so we are going to use a f
 
 Now we need a delete action route. After deleting the comment, it should redirect back to the parent review (`reviews-show`).
 
+> [action]
+>
+> add a delete route for comments in `controllers/comments.js`:
+>
 ```js
 // controllers/comments.js
 ...
@@ -68,7 +76,7 @@ Ok so now try deleting a comment.
 
 # What Happened
 
-So now we've completed all our user stories
+So now we've completed all our user stories:
 
 1. Users can view all reviews (index)
 1. Users can create a review (new/create)
@@ -78,7 +86,7 @@ So now we've completed all our user stories
 1. Users can comment on reviews (comments#create)
 1. Users can delete comments (comments#destroy)
 
-You used **Resource Based Development** and **Resourceful Routing** to build a review app.
+You used **Resource Based Development** and **Resourceful Routing** to build a review app!
 
 Congrats! You got Rotten Potatoes all set up! The following chapter has some extra challenges if you're looking to improve RP even more.
 
