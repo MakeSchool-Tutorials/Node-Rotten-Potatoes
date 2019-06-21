@@ -16,11 +16,15 @@ First we have to update our model to track when documents are created and update
 > Update `models/review.js` to use `timestamps`:
 >
 ```js
-const Review = mongoose.model('Review', {
+const Review = mongoose.model('Review', new mongoose.Schema({
   ...
 }, {
   timestamps: true
 });
+
+const Review = mongoose.model('Review', reviewScheme);
+
+module.exports = Review;
 ```
 
 Now we can display that `createdAt` timestamp in our html:
