@@ -7,7 +7,7 @@ You might know the website [Rotten Tomatoes](https://rottentomatoes.com) it is a
 
 # Why is this important?
 
-By finishing this tutorial you will continue to deepen your knowledge of Node.js and Express.js as well as master the internet-wide paradigms of RESTful and Resourceful routing. You will be Creating, Reading, Updating, and Deleting (CRUD) a single resource (in this case, a `Review`). You will also learn how to use a MongoDB document-based database with Express.js.
+By finishing this tutorial you will continue to deepen your knowledge of Node.js and Express.js as well as main the internet-wide paradigms of RESTful and Resourceful routing. You will be Creating, Reading, Updating, and Deleting (CRUD) a single resource (in this case, a `Review`). You will also learn how to use a MongoDB document-based database with Express.js.
 
 # Learning Outcomes
 
@@ -280,5 +280,5 @@ $ git status
 >
 ```bash
 $ git remote add origin GITHUB-REPO-URL
-$ git push origin master -u
+$ git push origin main -u
 ```

@@ -70,7 +70,7 @@ Alright, now we can push our code to heroku and open our new website!
 > Push to Heroku!
 >
 ```bash
-$ git push heroku master
+$ git push heroku main
 $ heroku open
 ```
 
